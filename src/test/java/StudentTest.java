@@ -1,9 +1,5 @@
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
 import static org.junit.Assert.*;
 
 public class StudentTest {
@@ -17,7 +13,7 @@ public class StudentTest {
         assertNotEquals(student.getName(), "JOHN");
         assertEquals(student.getId(), 1234567);
         assertTrue(student.getId() >= 0);
-        assertEquals(student.getGrades(), new ArrayList<Integer>());
+        assertArrayEquals(student.getGrades().toArray(), new Integer[]{});
 
     }
 
@@ -25,8 +21,8 @@ public class StudentTest {
     public void testIfAddingGradesWorks() {
         student.addGrade(55);
 
-        assertEquals(student.getGrades(), new ArrayList<>(Collections.singletonList(55)));
-        assertNotEquals(student.getGrades(), new ArrayList<>(Collections.singletonList(100)));
+        assertArrayEquals(student.getGrades().toArray(), new Integer[]{55});
+        assertEquals(student.getGrades().size(), 1);
     }
 
     @Test
@@ -35,18 +31,37 @@ public class StudentTest {
         student.addGrade(85);
         student.addGrade(60);
 
-        assertEquals(student.getGrades(), new ArrayList<>(Arrays.asList(100, 85, 60)));
+        assertArrayEquals(student.getGrades().toArray(), new Integer[]{100, 85, 60});
         assertEquals(student.getAverage(), 81.666, 0.001);
 
         student.addGrade(55);
-        assertNotEquals(student.getGrades(), new ArrayList<>(Arrays.asList(100, 85, 60)));
-        assertEquals(student.getGrades(), new ArrayList<>(Arrays.asList(100, 85, 60, 55)));
+        assertArrayEquals(student.getGrades().toArray(), new Integer[]{100, 85, 60, 55});
         assertEquals(student.getAverage(), 75, 0);
         assertTrue(student.getAverage() >= 0);
     }
 
-//    The Student class should have a constructor that sets both the name and id property,
-//        it initializes the grades property as an empty ArrayList.
-//
+    @Test
+    public void testIfGradeDeletionWorks() {
+        student.addGrade(100);
+        student.addGrade(85);
+        student.addGrade(60);
+
+        student.deleteGrade(85);
+        assertArrayEquals(student.getGrades().toArray(), new Integer[]{100, 60});
+        assertEquals(student.getGrades().size(), 2);
+    }
+
+    @Test
+    public void testIfUpdateGradeWorks() {
+        student.addGrade(100);
+        student.addGrade(85);
+        student.addGrade(60);
+
+        student.updateGrade(85, 75);
+        assertArrayEquals(student.getGrades().toArray(), new Integer[]{100, 75, 60});
+        assertEquals(student.getGrades().size(), 3);
+
+        student.updateGrade(80, 30);
+    }
 
 }

@@ -42,4 +42,18 @@ public class Student {
         return sum / getGrades().size();
 
     }
+
+    public void deleteGrade(Integer i) {
+        grades.remove(i);
+    }
+
+    public void updateGrade(Integer gradeToChange, Integer newGrade) {
+        int index = grades.indexOf(gradeToChange);
+
+        if (index != -1) {
+            grades.set(index, newGrade);
+        } else {
+            System.out.println("Grade not found");
+        }
+    }
 }
